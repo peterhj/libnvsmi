@@ -1,0 +1,12 @@
+[package]
+name = "nvsmi"
+version = "0.0.1"
+authors = ["Peter Jin <peterhaijin@gmail.com>"]
+
+[lib]
+name = "nvsmi"
+path = "src/lib.rs"
+
+[[bin]]
+name = "nvsmi-tool"
+path = "tools/nvsmi-tool.rs"
