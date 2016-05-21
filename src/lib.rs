@@ -1,8 +1,10 @@
+extern crate rustc_serialize;
+
 use std::collections::{HashMap};
 use std::io::{BufRead};
 use std::process::{Command, Stdio};
 
-#[derive(Debug)]
+#[derive(Clone, Debug, RustcDecodable, RustcEncodable)]
 pub struct NvsmiAffinity {
   pub threads_to_devices:   HashMap<usize, Vec<usize>>,
   pub devices_to_threads:   HashMap<usize, Vec<usize>>,
@@ -14,11 +16,11 @@ enum ParseState {
 }
 
 impl NvsmiAffinity {
-  pub fn query(num_threads: usize) -> Result<NvsmiAffinity, ()> {
-    NvsmiAffinity::query_cmd("nvidia-smi", num_threads)
+  pub fn query_default(num_threads: usize) -> Result<NvsmiAffinity, ()> {
+    NvsmiAffinity::query("nvidia-smi", num_threads)
   }
 
-  pub fn query_cmd(cmd_name: &str, num_threads: usize) -> Result<NvsmiAffinity, ()> {
+  pub fn query(cmd_name: &str, num_threads: usize) -> Result<NvsmiAffinity, ()> {
     let mut threads_to_devices: HashMap<usize, Vec<usize>> = HashMap::new();
     for thread_idx in 0 .. num_threads {
       //println!("DEBUG: call nvidia-smi on cpu {}", thread_idx);

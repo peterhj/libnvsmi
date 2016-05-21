@@ -10,3 +10,6 @@ path = "src/lib.rs"
 [[bin]]
 name = "nvsmi-tool"
 path = "tools/nvsmi-tool.rs"
+
+[dependencies]
+rustc-serialize = "*"
